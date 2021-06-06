@@ -12,7 +12,7 @@ Original file is located at
 
 [Check out Video for explanation](https://www.youtube.com/watch?v=Uzkhn5ENJzQ&feature=youtu.be)
 """
-
+#%%
 #%tensorflow_version 2.x - not required anymore
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -24,25 +24,25 @@ import datetime
 mnist = tf.keras.datasets.mnist
 (x_train, y_train),(x_test, y_test) = mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0
-
+#%%
 model = tf.keras.models.Sequential([
   tf.keras.layers.Flatten(input_shape=(28, 28)),
   tf.keras.layers.Dense(512, activation='relu'),
   tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(10, activation='softmax')
 ])
-
+#%%
 model.summary()
-
+#%%
 model.compile(optimizer='adagrad',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-
+#%%  Get Tensorboard ready to 'hear'
 path = "logs\\fit\\" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=path, histogram_freq=1)
-
+#%%  Here's where the model goes thru all Epoch's...
 model.fit(x=x_train, 
           y=y_train, 
           epochs=20, 
@@ -50,5 +50,6 @@ model.fit(x=x_train,
           callbacks=[tensorboard_callback])
 
 # Commented out IPython magic to ensure Python compatibility.
+#%%
 %tensorboard --logdir logs\\fit\\20210530-143800
 %
