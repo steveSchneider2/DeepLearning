@@ -34,6 +34,7 @@ model = tf.keras.models.Sequential([
 #%%
 model.summary()
 #%%
+# This is a comments
 model.compile(optimizer='adagrad',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
@@ -50,6 +51,5 @@ model.fit(x=x_train,
           callbacks=[tensorboard_callback])
 
 # Commented out IPython magic to ensure Python compatibility.
-#%%
-%tensorboard --logdir logs\\fit\\20210530-143800
-%
+#%% %tensorboard --logdir logs\\fit\\20210530-143800
+

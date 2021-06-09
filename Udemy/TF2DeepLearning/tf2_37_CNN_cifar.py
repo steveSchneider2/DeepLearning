@@ -86,7 +86,8 @@ model.compile(optimizer='adam',  # adam is a 'flavor' of gradient descent
               metrics=['accuracy'])
 
 #%% Train the model
-r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=epochs)
+r = model.fit(x_train, y_train, \
+              validation_data=(x_test, y_test), epochs=epochs)
 
 endtime = time.perf_counter()
 duration = round(endtime - starttime,2)
@@ -214,3 +215,6 @@ misclassified_idx = np.where(p_test != y_test)[0]
 i = np.random.choice(misclassified_idx)
 plt.imshow(x_test[i], cmap='gray')
 plt.title("True label: %s Predicted: %s" % (labels[y_test[i]], labels[p_test[i]]));
+# %%
+
+# %%
