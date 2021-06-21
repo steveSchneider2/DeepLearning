@@ -96,7 +96,7 @@ ax.set_title(f'Udemy TensorFlow 2.0 Lecture 29.   {modelstart}\n' +
           f' {X.shape[0]} records {X.shape[1]} fields' + 
           f'\nDuration: {duration}', fontsize=10)
 
-#%% surface plot
+#%% surface plot  21 2021 june not working. not concernded now.
 line = np.linspace(-3, 3, 50)
 xx, yy = np.meshgrid(line, line)
 Xgrid = np.vstack((xx.flatten(), yy.flatten())).T
@@ -104,7 +104,7 @@ Yhat = model.predict(Xgrid).flatten()
 ax.plot_trisurf(Xgrid[:,0], Xgrid[:,1], Yhat, linewidth=0.2, antialiased=True)
 ax.set_xlabel('tf2_ANN_regression.py')
 ax.set_ylabel('Cosine randomized data')
-plt.text(6.5, .7,# transform=trans1,
+plt.text(x= .5, y= .7,# transform=trans1,
          s=f'Conda Envr:  {condaenv}\n' +
          f'Gpu  Support:       {tf.test.is_built_with_gpu_support()}\n' +
          f'Cuda Support:       {tf.test.is_built_with_cuda()}\n' +
