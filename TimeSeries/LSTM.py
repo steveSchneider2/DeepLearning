@@ -51,6 +51,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import sys
 import time
 
@@ -110,13 +113,15 @@ training_set_scaled = sc.fit_transform(training_set)
 X_train = []
 y_train = []
 # X_train.info(memory_usage='deep')
+#%% following loop fails...https://stackoverflow.com/questions/66207609/notimplementederror-cannot-convert-a-symbolic-tensor-lstm-2-strided-slice0-t
+# possible downgrade numpy...but don't in Python38 environment, now enabled for Object Detection.
 for i in range(60, 800):
     X_train.append(training_set_scaled[i-60:i, 0])
     y_train.append(training_set_scaled[i, 0])
 X_train, y_train = np.array(X_train), np.array(y_train)
 X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 # (740, 60, 1)
-
+#%%
 model = Sequential()
 # Adding the first LSTM layer and some Dropout regularisation
 model.add(LSTM(units=50, return_sequences=True, 

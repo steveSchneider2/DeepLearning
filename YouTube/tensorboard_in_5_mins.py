@@ -12,7 +12,7 @@ Original file is located at
 
 [Check out Video for explanation](https://www.youtube.com/watch?v=Uzkhn5ENJzQ&feature=youtu.be)
 """
-#%%
+#%% 28 June: this code runs in MLFlow, but no visible output, even though the folder is created on the c: drive.
 #%tensorflow_version 2.x - not required anymore
 
 # Commented out IPython magic to ensure Python compatibility.
