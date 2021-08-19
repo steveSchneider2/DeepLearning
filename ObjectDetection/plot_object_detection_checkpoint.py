@@ -1,27 +1,48 @@
 #!/usr/bin/env python
 # coding: utf-8
 '''
-Object Detection From TF2 Checkpoint
+OBJECT DETECTION From TF2 Checkpoint
 ====================================
-https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/auto_examples/plot_object_detection_checkpoint.html
+Source: https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/auto_examples/plot_object_detection_checkpoint.html
 25 July 2021.
 
-With the following environment this code runs but doesn't actually display any plot/picture.'
-Conda Envronment:   Python38
+6 Aug 2021: With the following environment this code runs (also  displays images, running under just upgraded Spyder 5.1.1).'
+11 Aug 2021
+
+RUNTIME ~50 Sec.
+
+Input: Model from: http://download.tensorflow.org/models/object_detection/tf2/
+        Images to analyze (same source)
+Output: 2 images, with objects (like people) detected, boxed w/% confidence.
+
+ENVIRONMENT:
+Conda Envronment:   MLFlowProtoBuf
 Gpu  Support:       True
 Cuda Support:       True
-Tensor Flow:        2.4.1
-Python version:      3.8.10.
+Tensor Flow:        2.5.0
+Python version:      3.8.8.
 The numpy version:   1.19.5.
-The panda version:   1.3.1.
-Tensorboard version  2.5.0.
+The panda version:   1.2.4.
+Tensorboard version  2.6.0.
+Summary of the h5py configuration
+---------------------------------
+
+h5py    3.1.0
+HDF5    1.12.0
+Python  3.8.8 | packaged by conda-forge | (default, Feb 20 2021, 15:50:08) [MSC v.1916 64 bit (AMD64)]
+sys.platform    win32
+sys.maxsize     9223372036854775807
+numpy   1.19.5
+cython (built with) 0.29.21
+numpy (built against) 1.17.5
+HDF5 (built against) 1.12.0
 
 Last 3 output:
     Loading model... Done! Took 0.6106808185577393 seconds
 Running inference for C:\\Users\steve\.keras\datasets\image1.jpg... Done
 Running inference for C:\\Users\steve\.keras\datasets\image2.jpg... Done
-steve: (but no pictureplot)
-
+Note: when run for first time after starting Python, the images don't show. (!)
+        Run a 'simpler' script that shows images, then run this one.
 '''
 
 # %%
@@ -37,10 +58,12 @@ steve: (but no pictureplot)
 # and save them inside the ``data/images`` folder.
 import sys 
 import os
-sys.path.append(os.path.abspath("/users/steve/documents/GitHub"))
+sys.path.append(os.path.abspath("/users/steve/documents/GitHub/Misc"))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'    # Suppress TensorFlow logging (1)
 
 import tensorPrepStarter as tps
+import h5py; print (h5py.version.info)
+h5py.__version__
 import pathlib
 import tensorflow as tf
 
@@ -203,7 +226,8 @@ def load_image_into_numpy_array(path):
       uint8 numpy array with shape (img_height, img_width, 3)
     """
     return np.array(Image.open(path))
-
+condaenv = os.environ['CONDA_DEFAULT_ENV']
+modelstart = time.strftime('%a %b %Y')
 
 for image_path in IMAGE_PATHS:
 
@@ -249,9 +273,41 @@ for image_path in IMAGE_PATHS:
             agnostic_mode=False)
 
     plt.figure()
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+    plt.title(f'DL\\plot_object_detection_checkpoint.py  {condaenv}  TF 2.4.1')
+#    plt.xlabel(f' on Wed 21 July 2021 Model Downloaded in: {elapsed_time:.2f} seconds  h5py: 3.2.1' \
+    plt.xlabel(f' on {modelstart} Model Downloaded in: {elapsed_time:.2f} seconds  h5py: 3.2.1' \
+               f'\nPretrained Model: {MODEL_NAME}')
+#    plt.axis('off')
     plt.imshow(image_np_with_detections)
     plt.show()
     print('Done')
     plt.show()
 
 # sphinx_gallery_thumbnail_number = 2
+'''
+https://strftime.org/
+time.strftime('%x')
+time.strftime('%a %b %Y')-7
+%x = Preferred date representation              ... 08/06/21
+%I = Hour as a decimal number (12-hour clock). 
+%M = Minutes in decimal ranging from 00 to 59. 
+%p = Either “AM” or “PM” according to the given time value, etc. 
+%a = Abbreviated weekday name 
+%^a = Abbreviated weekday name in capital letters
+%A = Full weekday name 
+%b = Abbreviated month name 
+
+%^b = Abbreviated month name in capital letters
+%B = Full month name March 
+%c = Date and time representation 
+%d = Day of the month (01-31) 
+%H = Hour in 24h format (00-23) 
+%I = Hour in 12h format (01-12) 
+%j = Day of the year (001-366) 
+%m = Month as a decimal number (01-12) 
+%M = Minute (00-59)
+
+'''

@@ -1,19 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 """
+RUN TIME: 2 MIN 40 SEC
 Object Detection From TF2 Saved Model
 =====================================
-# from https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/auto_examples/plot_object_detection_saved_model.html
+RUNTIME: 4.3 MINUTES
+INPUT: https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/auto_examples/plot_object_detection_saved_model.html
+OUTPUT: TWO images displayed
+FIRST RUN: Mon Jul 26 14:03:25 2021       
 
-Conda Envronment:   TF25pyt39
+ENVIRONMENT:
+Conda Envronment:   MLFlowProtoBuf
 Gpu  Support:       True
 Cuda Support:       True
 Tensor Flow:        2.5.0
-Python version:      3.9.6.
-The numpy version:   1.21.0.
-The panda version:   1.3.0.
-Tensorboard version  2.5.0.
-Mon Jul 26 14:03:25 2021       
+Python version:      3.8.8.
+The numpy version:   1.19.5.
+The panda version:   1.2.4.
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 462.75       Driver Version: 462.75       CUDA Version: 11.2     |
 
@@ -30,17 +33,22 @@ Mon Jul 26 14:03:25 2021
 # First we will download the images that we will use throughout this tutorial. The code snippet
 # shown bellow will download the test images from the `TensorFlow Model Garden <https://github.com/tensorflow/models/tree/master/research/object_detection/test_images>`_
 # and save them inside the ``data/images`` folder.
-import os
+import os, time
+# from datetime import datetime
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'    # Suppress TensorFlow logging (1)
 import sys 
-sys.path.append(os.path.abspath("/users/steve/documents/GitHub"))
+sys.path.append(os.path.abspath("/users/steve/documents/GitHub/misc"))
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'    # Suppress TensorFlow logging (1)
 import tensorPrepStarter as tps
-
+import h5py; print (h5py.version.info)
 import pathlib
 import tensorflow as tf
 
 tf.get_logger().setLevel('ERROR')           # Suppress TensorFlow logging (2)
+
+print('starting at: ', time.strftime('%c'))
+starttime = time.perf_counter()
+
 
 # Enable GPU dynamic memory allocation
 # gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -227,8 +235,18 @@ for image_path in IMAGE_PATHS:
           agnostic_mode=False)
 
     plt.figure()
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+    plt.title(f'DL\\plot_object_detection_SaveModel.py  {tps.condaenv}  {tf.__version__}')
+    plt.xlabel(f' on {tps.modelstart} Model Downloaded in: {elapsed_time:.2f} seconds  h5py: 3.2.1' \
+               f'\nPretrained Model: {MODEL_NAME}')
+#    plt.axis('off')
     plt.imshow(image_np_with_detections)
+    plt.show()
     print('Done')
 plt.show()
 
+duration =  time.perf_counter() - starttime
+print('it took: ', duration)
 # sphinx_gallery_thumbnail_number = 2

@@ -15,9 +15,23 @@ Original file is located at
 # #   %tensorflow_version 2.x  # Colab only.
 # except Exception:
 #   pass
+# %% Imports...
+import numpy as np, matplotlib.pyplot as plt
+import os, pandas as pd, seaborn as sns, sys
+# 1 July 2021... next two statements...BEFORE any tensorflow did the trick.
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 import tensorflow as tf
 print(tf.__version__)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', None)
+path = 'C:/Users/steve/Documents/GitHub/misc'
+sys.path
+sys.path.insert(0,path)
+
+import tensorPrepStarter as tps
+import h5py; print (h5py.version.info)
 
 # More imports
 from tensorflow.keras.layers import Input, SimpleRNN, GRU, LSTM, Dense, Flatten
@@ -48,20 +62,20 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 r = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=10)
 
-# Plot loss per iteration
-import matplotlib.pyplot as plt
+#%% # Plot loss per iteration
 plt.plot(r.history['loss'], label='loss')
 plt.plot(r.history['val_loss'], label='val_loss')
 plt.legend()
+plt.show()
 
-# Plot accuracy per iteration
+#%% Plot accuracy per iteration
 plt.plot(r.history['accuracy'], label='acc')
 plt.plot(r.history['val_accuracy'], label='val_acc')
 plt.legend()
+plt.show()
 
-# Plot confusion matrix
+#%% Plot confusion matrix
 from sklearn.metrics import confusion_matrix
-import numpy as np
 import itertools
 
 def plot_confusion_matrix(cm, classes,

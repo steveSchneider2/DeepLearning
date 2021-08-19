@@ -3,6 +3,21 @@
 Created on Tue Nov 24 20:17:15 2020
 LSTM stands for long short term memory.
 
+FROM MEDIUM.COM !!! (random reading in Nov 2020)
+
+RUNTIME: 56 sec
+INPUT: Yahoo stock...history of tesla
+METHOD: Handbuilt tensorflow 
+OUTPUT: Nice chart predicting tesla's rising price
+
+Architecture:
+    Long short-term memory (LSTM) is an artificial recurrent neural network 
+    (RNN) architecture used in the field of deep learning. Unlike standard 
+    feedforward neural networks, LSTM has feedback connections. It can not 
+    only process single data points (e.g. images), but also entire sequences 
+    of data (such as speech or video inputs).
+    
+    4 (hidden) LAYERS of 50 neurons each
 
 It is a model or architecture that extends the memory of recurrent neural
 networks. Typically, recurrent neural networks have ‘short term memory’ in
@@ -24,7 +39,7 @@ I recommend that you switch to using the keras module inside TensorFlow.
 
 It is better maintained and you will not have incompatibility issues.
 
-According to Francois Chollet:
+According to Francois Chollet(author of Keras):
 
 Keras version 2.3.0 is here, and it is the last major multi-backend release. 
 Going forward, users are recommended to switch their code over to:
@@ -39,9 +54,21 @@ Other links: includes cuDNN cuda for Deep Neural Networks
     https://www.codingforentrepreneurs.com/blog/install-tensorflow-gpu-windows-cuda-cudnn/
 
 11 Dec 2020: now running with Python 3.8.6 Tensorflow 2.3.0 BUT NO GPU!
+06 Aug 2021: now running on GPU.
 
 My 1st Neural Network! 
 RUNNING ON GPU: TAKES 42.8 SECONDS   
+6 Aug 2021 running on: 
+    Conda Envronment:   Python38
+    Gpu  Support:       True
+    Cuda Support:       True
+    Tensor Flow:        2.4.1
+    Python version:      3.8.10.
+    The numpy version:   1.19.5.
+    The panda version:   1.3.1.
+    SciKitLearn:    0.24.2
+    matplotlib:     3.4.2
+    tensorflow:     2.4.1
 """
 
 # import math
@@ -56,6 +83,11 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 import sys
 import time
+path = 'C:/Users/steve/Documents/GitHub/misc'
+sys.path
+sys.path.insert(0,path)
+import tensorPrepStarter as tps
+starttime, modelstart = tps.getstart()
 
 #import keras
 import tensorflow as tf
@@ -97,7 +129,7 @@ tf.config.experimental.list_physical_devices('GPU')
 
 time.strftime('%c')
 starttime = time.perf_counter()
-df = pd.read_csv("D:\\dDocuments\\ML\\Python\\data\\TSLA.csv")
+df = pd.read_csv("D:\\ML\\Python\\data\\TSLA.csv")
 print('Number of rows and columns:', df.shape)
 df.head(5)
 
@@ -229,6 +261,14 @@ plt.text(230, 10,# transform=trans1,
          fontsize=10, bbox=dict(facecolor='aqua', alpha=0.5))
 plt.show()
 
+#%% ENDING
+duration =  time.perf_counter() - starttime
+if duration < 60:
+    print('it  took: {:.2f} seconds'.format(duration))
+elif duration >= 60: 
+    print('it  took: {:.2f} minutes'.format(duration/60))
+    duration = duration/60
+    durationtm = str(duration) + ' min'
 
 # from keras import backend as K
 # K.tensorflow_backend._get_available_gpus()
